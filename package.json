@@ -1,0 +1,26 @@
+{
+  "name": "rest-api",
+  "version": "1.0.0",
+  "description": "Read, Add, Update and Remove Activity",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mshrestha8080/ToDoAPI.git"
+  },
+  "author": "Manoj Shrestha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mshrestha8080/ToDoAPI/issues"
+  },
+  "homepage": "https://github.com/mshrestha8080/ToDoAPI#readme",
+  "dependencies": {
+    "express": "^4.17.2",
+    "mongoose": "^6.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
