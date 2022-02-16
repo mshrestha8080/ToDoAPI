@@ -1,10 +1,8 @@
 //Database schema
 
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-//create a student schema and model
-const StudentSchema = new Schema({
+const StudentSchema = mongoose.Schema({
     name: {
         type: String,
     },
@@ -18,6 +16,4 @@ const StudentSchema = new Schema({
     }
 });
 
-const Student = mongoose.model('student, StudentSchema');
-
-module.exports = Student;
+module.exports = mongoose.model('student', StudentSchema);

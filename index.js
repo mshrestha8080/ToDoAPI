@@ -1,25 +1,29 @@
 //ToDo API index file
 
-//set up express app
 const express = require('express');
 const app = express();
-
-//connect to mongodb
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/ourdata');
-mongoose.Promise = global.Promise;
+const bodyParser = require('body-parser');
+require('dotenv/config');
 
-app.use(express.static('public'));
-app.use(express.json());
-//initialize routes
-app.use('/api',require('./router/api'));
+app.use(bodyParser.json());
 
-//error handling middleware
-app.use(function(err,req,res,next){
-    res.status(422).send({error: err.message});
+//Import Routes
+const postsRoute = require('./router/posts');
+
+//Middleware
+app.use('/posts', postsRoute);
+
+//Routes
+app.get('/', (req, res) => {
+    res.send('We are on Home');
 });
 
-//listening for requests
-app.listen(process.env.port || 4000, function() {
-    console.log('now listening for requests...');
-});
+//Connect to DB
+mongoose.connect(process.env.DB_CONNECTION, 
+    { useNewUrlParser: true },
+    () => console.log('connected to DB!'));
+
+
+//Listening to the server
+app.listen(4000);
