@@ -1,19 +1,24 @@
+//Importing all required modules
 
 const express = require('express');
+const res = require('express/lib/response');
 const router = express.Router();
-const Post = require('../models/Post');
+const {readActivities, readActivity, addActivity, deleteActivity, updateActivity} = require('../controllers/methods');
 
-router.get('/', (req, res) => {
-    res.send('We are on Posts');
-});
+//Reads all the activities
+router.get('/', readActivities);
 
-router.get('/Demyst', (req, res) => {
-    res.send('We are on Demyst');
-});
+//Read a specific activity
+router.get('/:id', readActivity);
 
-router.post('/', (req,res) => {
-    console.log(req.body);
-});
+//Submits an activity
+router.post('/', addActivity);
 
+//Deletes an activity
+router.delete('/:id', deleteActivity);
 
+//Update an activity
+router.patch('/:id', updateActivity);
+
+//Exporting router
 module.exports = router;
