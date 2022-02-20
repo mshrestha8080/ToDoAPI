@@ -12,7 +12,7 @@ var data = fs.readFileSync(filePath, (err) => {
     if (err)    throw err;
 });
 
-//Assigning file contents to array
+//Assigning file contents to array object
 var activities = JSON.parse(data);
 
 //Function to write on file
@@ -45,9 +45,15 @@ const addActivity = (req, res) => {
 //Deletes an activity
 const deleteActivity = (req, res) => {
     const { id } = req.params;
-    activities = activities.filter((activity) => activity.id !== id);
-    writeOnFile();
-    res.send(`Activity with id "${id}" deleted from the activities list`);
+    
+    let updatedActivities = activities.filter((activity) => activity.id !== id);
+    if (updatedActivities.length === activities.length)
+        res.send('No activity found with provided ID');
+    else {
+        activities = updatedActivities;
+        writeOnFile();
+        res.send(`Activity with id "${id}" deleted from the activities list`);
+    }
 }
 
 //Update an activity
@@ -56,11 +62,13 @@ const updateActivity = (req, res) => {
     const { title, description } = req.body;
     
     const activityToUpdate = activities.find((activity) => activity.id === id);
-    
-    if(title) activityToUpdate.title = title;
-    if(description) activityToUpdate.description = description;
-    writeOnFile();
-    res.send(`Activity with id "${id}" updated from the activities list`);
+    if (activityToUpdate !== undefined) {
+        if(title) activityToUpdate.title = title;
+        if(description) activityToUpdate.description = description;
+        writeOnFile();
+        res.send(`Activity with id "${id}" updated from the activities list`);
+    }
+    else    res.send('No activity found with provided ID');
 }
 
 //Exporting all functions
