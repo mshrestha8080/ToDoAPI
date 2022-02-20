@@ -1,9 +1,8 @@
 //Importing all required modules
 
 const express = require('express');
-const res = require('express/lib/response');
 const router = express.Router();
-const {readActivities, readActivity, addActivity, deleteActivity, updateActivity} = require('../controllers/methods');
+const {readActivities, readActivity, addActivity, deleteActivity, updateActivity} = require('../methods');
 
 //Reads all the activities
 router.get('/', readActivities);

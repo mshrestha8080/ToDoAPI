@@ -5,20 +5,26 @@ const { v4: uuidv4 } = require('uuid');
 
 //Importing file system module to CRUD on .JSON file
 const fs = require('fs');
-const filePath = '../data/database.json';
+const filePath = './data/database.json';
 
-//Mock database
-let activities = []
+//Opening file in reading mode
+var data = fs.readFileSync(filePath, (err) => {
+    if (err)    throw err;
+});
+
+//Assigning file contents to array
+var activities = JSON.parse(data);
+
+//Function to write on file
+const writeOnFile = () => {
+    fs.writeFile(filePath, JSON.stringify(activities), (err) => {
+    if(err)     throw err;
+    });
+}
 
 //Reads all the activities
 const readActivities = (req, res) => {
-    fs.readFile(filePath, (err, data) => {
-        if(err)     throw err;
-        res.send(JSON.parse(data));
-    });
-
-    // console.log(activities);
-    // res.send(activities);
+    res.send(activities);
 }
 
 //Read a specific activity
@@ -32,6 +38,7 @@ const readActivity = (req, res) => {
 const addActivity = (req, res) => {
     const activity = req.body;
     activities.push({ ...activity, id: uuidv4() });
+    writeOnFile();
     res.send(`Activity with title "${activity.title}" added to the activities list`);
 }
 
@@ -39,6 +46,7 @@ const addActivity = (req, res) => {
 const deleteActivity = (req, res) => {
     const { id } = req.params;
     activities = activities.filter((activity) => activity.id !== id);
+    writeOnFile();
     res.send(`Activity with id "${id}" deleted from the activities list`);
 }
 
@@ -51,7 +59,7 @@ const updateActivity = (req, res) => {
     
     if(title) activityToUpdate.title = title;
     if(description) activityToUpdate.description = description;
-    
+    writeOnFile();
     res.send(`Activity with id "${id}" updated from the activities list`);
 }
 
