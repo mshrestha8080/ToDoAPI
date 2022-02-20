@@ -37,9 +37,12 @@ const readActivity = (req, res) => {
 //Submits an activity
 const addActivity = (req, res) => {
     const activity = req.body;
-    activities.push({ ...activity, id: uuidv4() });
-    writeOnFile();
-    res.send(`Activity with title "${activity.title}" added to the activities list`);
+    if (activity.title && activity.description) {
+        activities.push({ ...activity, id: uuidv4() });
+        writeOnFile();
+        res.send(`Activity with title "${activity.title}" added to the activities list`);
+    }
+   else    res.send('Either title or description missing!');
 }
 
 //Deletes an activity
@@ -48,7 +51,7 @@ const deleteActivity = (req, res) => {
     
     let updatedActivities = activities.filter((activity) => activity.id !== id);
     if (updatedActivities.length === activities.length)
-        res.send('No activity found with provided ID');
+        res.send('No activity found with provided ID!');
     else {
         activities = updatedActivities;
         writeOnFile();
@@ -68,7 +71,7 @@ const updateActivity = (req, res) => {
         writeOnFile();
         res.send(`Activity with id "${id}" updated from the activities list`);
     }
-    else    res.send('No activity found with provided ID');
+    else    res.send('No activity found with provided ID!');
 }
 
 //Exporting all functions
