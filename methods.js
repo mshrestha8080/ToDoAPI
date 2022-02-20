@@ -37,7 +37,7 @@ const readActivity = (req, res) => {
 //Submits an activity
 const addActivity = (req, res) => {
     const activity = req.body;
-    if (activity.title && activity.description) {
+    if (req.body && activity.title && activity.description) {
         activities.push({ ...activity, id: uuidv4() });
         writeOnFile();
         res.send(`Activity with title "${activity.title}" added to the activities list`);
