@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const {readActivities, readActivity, addActivity, deleteActivity, updateActivity} = require('../methods');
+const {readActivities, readActivity, addActivity, deleteActivity, updateActivity} = require('../controller/methods');
 
 //Reads all the activities
 router.get('/', readActivities);
