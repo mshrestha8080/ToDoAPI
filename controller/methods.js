@@ -41,9 +41,13 @@ const addActivity = (req, res) => {
     if (req.body && activity.title && activity.description) {
         activities.push({ ...activity, id: uuidv4() });
         writeOnFile();
-        res.send(`Activity with title "${activity.title}" added to the activities list`);
+        var message = `Activity with title ${activity.title} added to the activities list`;
+        res.send([{ message }]);
     }
-   else    res.send('Either title or description missing!');
+   else {
+        var message = 'Either title or description missing!';
+        res.send([{ message }]);
+   }
 }
 
 //Deletes an activity
@@ -51,12 +55,15 @@ const deleteActivity = (req, res) => {
     const { id } = req.params;
     
     let updatedActivities = activities.filter((activity) => activity.id !== id);
-    if (updatedActivities.length === activities.length)
-        res.send('No activity found with provided ID!');
+    if (updatedActivities.length === activities.length) {
+        var message = 'No activity found with provided ID!';
+        res.send([{ message }]);
+    }
     else {
         activities = updatedActivities;
         writeOnFile();
-        res.send(`Activity with id "${id}" deleted from the activities list`);
+        var message = `Activity with id "${id}" deleted from the activities list`;
+        res.send([{ message }]);
     }
 }
 
@@ -70,9 +77,13 @@ const updateActivity = (req, res) => {
         if(title) activityToUpdate.title = title;
         if(description) activityToUpdate.description = description;
         writeOnFile();
-        res.send(`Activity with id "${id}" updated from the activities list`);
+        var message = `Activity with id "${id}" updated from the activities list`;
+        res.send([{ message }]);
     }
-    else    res.send('No activity found with provided ID!');
+    else    {
+        var message = 'No activity found with provided ID!';
+        res.send([{ message }]);
+    }
 }
 
 //Exporting all functions
